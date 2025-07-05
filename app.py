@@ -11,6 +11,8 @@ import re
 import random
 from email.message import EmailMessage
 import smtplib
+from datetime import datetime
+from models import report_generator 
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key_should_be_strong_and_secret'
@@ -86,26 +88,6 @@ def init_db():
 
 serializer = URLSafeTimedSerializer(app.secret_key)
 
-def generate_confirmation_token(email):
-    return serializer.dumps(email, salt='email-confirm')
-
-def confirm_token(token, expiration=3600):
-    try:
-        email = serializer.loads(token, salt='email-confirm', max_age=expiration)
-    except:
-        return False
-    return email
-from itsdangerous import URLSafeTimedSerializer
-import smtplib
-from email.message import EmailMessage
-
-serializer = URLSafeTimedSerializer(app.secret_key)
-
-def generate_confirmation_token(email):
-    return serializer.dumps(email, salt='email-confirm')
-
-
-import sqlite3
 
 def get_db_connection():
     conn = sqlite3.connect('users.db')  # اسم قاعدة البيانات
@@ -191,25 +173,7 @@ def register():
 
 
 
-@app.route('/confirm/<token>', methods=['GET', 'POST'])
-def confirm_email(token):
-    if request.method == 'POST':
-        entered_token = request.form['token']
-        
-        # التحقق من الرمز المدخل
-        email = confirm_token(entered_token)
-        if email:
-            with sqlite3.connect('users.db') as conn:
-                c = conn.cursor()
-                c.execute("UPDATE users SET is_verified = 1 WHERE email = ?", (email,))
-                conn.commit()
-            flash('Your account has been verified! You can now log in.', 'success')
-            return redirect(url_for('login'))
-        else:
-            flash('The confirmation link is invalid or has expired.', 'danger')
-            return redirect(url_for('login'))
-    
-    return render_template('confirm_email.html')  # استعرض نموذج إدخال الرمز
+
 
 
 @app.route('/verify_email', methods=['GET', 'POST'])
@@ -283,13 +247,7 @@ def login():
 
 
 # التحقق مما إذا كانت الدالة generate_report ترجع قيمتين كما هو متوقع
-from flask import Flask, render_template, request, redirect, url_for, session, flash
-from werkzeug.utils import secure_filename
-from datetime import datetime
-import sqlite3
-import os
-from werkzeug.utils import secure_filename
-from models import report_generator  # تأكد إنه موجود في models
+ # تأكد إنه موجود في models
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
     if 'user_id' not in session:
@@ -298,7 +256,10 @@ def upload():
 
     if request.method == 'POST':
         action = request.form.get('action')  # 'analyze_report' or 'quick_result'
+
         user_id = session.get('user_id')
+        model_choice = request.form.get('model_select')
+
 
         image_path = None
         filename = None
@@ -330,7 +291,8 @@ def upload():
 
             from models import report_generator
             try:
-                report_text, pdf_bytes, original_image_path, processed_image_path = report_generator.generate_report(image_full_path)
+                report_text,  original_image_path, processed_image_path = report_generator.generate_report(
+    image_full_path, model_choice=model_choice)
                 processed_image_path = processed_image_path.replace('\\', '/')
                 if 'static/' in processed_image_path:
                     processed_image_path = processed_image_path.split('static/', 1)[-1]
@@ -363,7 +325,8 @@ def upload():
 
             from models import report_generator
             try:
-                report_text, pdf_bytes, original_image_path, processed_image_path = report_generator.generate_report(image_full_path)
+                report_text,  original_image_path, processed_image_path = report_generator.generate_report(
+    image_full_path, model_choice=model_choice)
                 processed_image_path = processed_image_path.replace('\\', '/')
                 if 'static/' in processed_image_path:
                     processed_image_path = processed_image_path.split('static/', 1)[-1]
@@ -405,9 +368,7 @@ def upload():
             pdf_filename = f"{os.path.basename(image_path).rsplit('.', 1)[0]}_report.pdf"
             pdf_file_path = os.path.join(app.config['UPLOAD_FOLDER'], pdf_filename)
 
-            with open(pdf_file_path, 'wb') as f:
-                f.write(pdf_bytes)
-
+        
             # خزن في reports
             report_id = None
             with sqlite3.connect('users.db') as conn:

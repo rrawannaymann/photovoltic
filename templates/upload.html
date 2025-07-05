@@ -364,7 +364,8 @@
         </div>
         <form action="/upload" method="post" enctype="multipart/form-data">
             <div class="file-upload">
-                <input type="file" id="fileInput" name="image" accept="image/*" required>
+              <input type="file" id="fileInput" name="image" accept="image/*">
+
                 <label for="fileInput" class="file-label">Choose an image to upload</label>
             </div>
 
@@ -377,124 +378,128 @@
                 <p>Please upload an EL image for analysis</p>
             </div>
 
+   <div class="form-group">
+    <label for="model_select" class="required-field">Choose Model</label>
+    <select name="model_select" id="model_select" class="form-control" required>
+        <option value="">-- Select Model --</option>
+        <option value="model1">Single Cell</option>
+        <option value="multi">Multi Cell</option>
+    </select>
+</div>
+
             <div class="action-buttons">
                 <button type="submit" name="action" value="quick_result" class="btn btn-primary" id="showResultsBtn"
                     disabled>
                     <i class="fas fa-chart-line"></i> Show Results
                 </button>
             </div>
-        </form>
-
-        <form action="/upload" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="action" value="analyze_report">
-            <!-- Report Information Sections -->
+     
+                        <!-- Report Information Sections -->
             <div class="report-section">
+<!-- I. Customer Information -->
+<div class="section-title">I. Customer Information</div>
+<table class="form-table">
+    <tr>
+        <td>
+            <label class="required-field">Name</label>
+            <input type="text" name="customer_name" class="form-control form-required">
+        </td>
+    </tr>
+    <tr>
 
-                <!-- I. Customer Information -->
-                <div class="section-title">I. Customer Information</div>
-                <table class="form-table">
-                    <tr>
-                        <td>
-                            <label class="required-field">Name</label>
-                            <input type="text" name="customer_name" class="form-control" required>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label class="required-field">Address</label>
-                            <input type="text" name="customer_address" class="form-control" required>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label class="required-field">Email</label>
-                            <input type="email" name="customer_email" class="form-control" required>
-                        </td>
-                    </tr>
-                </table>
+        <td>
+            <label class="required-field">Address</label>
+            <input type="text" name="customer_address" class="form-control form-required">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label class="required-field">Email</label>
+            <input type="email" name="customer_email" class="form-control form-required">
+        </td>
+    </tr>
+</table>
 
-                <!-- II. Sample Information -->
-                <div class="section-title">II. Sample Information</div>
-                <table class="form-table">
-                    <tr>
-                        <td width="50%">
-                            <label class="required-field">Sample type</label>
-                            <input type="text" name="sample_type" class="form-control"
-                                value="Crystalline silicon PV module" required>
-                        </td>
-                        <td>
-                            <label class="required-field">Serial No.</label>
-                            <input type="text" name="serial_no" class="form-control" required>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label class="required-field">Model</label>
-                            <input type="text" name="model" class="form-control" required>
-                        </td>
-                        <td>
-                            <label class="required-field">Received date</label>
-                            <input type="date" name="received_date" class="form-control" required>
-                        </td>
-                    </tr>
-                </table>
+<!-- II. Sample Information -->
+<div class="section-title">II. Sample Information</div>
+<table class="form-table">
+    <tr>
+        <td width="50%">
+            <label class="required-field">Sample type</label>
+            <input type="text" name="sample_type" class="form-control form-required" value="Crystalline silicon PV module">
+        </td>
+        <td>
+            <label class="required-field">Serial No.</label>
+            <input type="text" name="serial_no" class="form-control form-required">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label class="required-field">Model</label>
+            <input type="text" name="model" class="form-control form-required">
+        </td>
+        <td>
+            <label class="required-field">Received date</label>
+            <input type="date" name="received_date" class="form-control form-required">
+        </td>
+    </tr>
+</table>
 
-                <!-- III. Test Information -->
-                <div class="section-title">III. Test Information</div>
-                <table class="form-table">
-                    <tr>
-                        <td width="50%">
-                            <label class="required-field">Test location</label>
-                            <input type="text" name="test_location" class="form-control" required>
-                        </td>
-                    </tr>
-                </table>
+<!-- III. Test Information -->
+<div class="section-title">III. Test Information</div>
+<table class="form-table">
+    <tr>
+        <td width="50%">
+            <label class="required-field">Test location</label>
+            <input type="text" name="test_location" class="form-control form-required">
+        </td>
+    </tr>
+</table>
 
-                <div class="section-title">Used Devices</div>
-                <textarea name="used_devices" class="form-control" rows="5" required>
+<div class="section-title">Used Devices</div>
+<textarea name="used_devices" class="form-control form-required" rows="5">
 - Camera (Nikon Z5) equipped with full spectrum Filter for EL signal detection.
 - Lens (Nikon AF Nikkor 50mm 1.8D)
 - Power Supply (Chroma 62012P-80-60)
 - Laser Distance meter (CROWCON CT44125 & CT44034)
 - Infrared Thermometer (BOSCH & TPI 376)
-                </textarea>
+</textarea>
 
-                <div class="section-title">Camera Settings</div>
-                <table class="table table-bordered">
-                    <tr>
-                        <td width="30%"><strong>f-number of aperture</strong></td>
-                        <td><input type="text" name="f_number" class="form-control" value="1/2.2" required></td>
-                    </tr>
-                    <tr>
-                        <td><strong>ISO setting</strong></td>
-                        <td><input type="text" name="iso" class="form-control" value="200" required></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Shutter speed</strong></td>
-                        <td><input type="text" name="shutter_speed" class="form-control" value="10 Sec" required></td>
-                    </tr>
-                </table>
+<div class="section-title">Camera Settings</div>
+<table class="table table-bordered">
+    <tr>
+        <td width="30%"><strong>f-number of aperture</strong></td>
+        <td><input type="text" name="f_number" class="form-control form-required" value="1/2.2"></td>
+    </tr>
+    <tr>
+        <td><strong>ISO setting</strong></td>
+        <td><input type="text" name="iso" class="form-control form-required" value="200"></td>
+    </tr>
+    <tr>
+        <td><strong>Shutter speed</strong></td>
+        <td><input type="text" name="shutter_speed" class="form-control form-required" value="10 Sec"></td>
+    </tr>
+</table>
 
+<!-- Signatures -->
+<div class="section-title">Approval</div>
+<table class="signature-table">
+    <tr>
+        <td>
+            <label>Lab Manager</label>
+            <input type="text" name="lab_manager" class="form-control form-required" placeholder="Name">
+        </td>
+        <td>
+            <label>Reviewed by</label>
+            <input type="text" name="reviewed_by" class="form-control form-required" placeholder="Name">
+        </td>
+        <td>
+            <label>Prepared by</label>
+            <input type="text" name="prepared_by" class="form-control form-required" placeholder="Name">
+        </td>
+    </tr>
+</table>
 
-                <!-- Signatures -->
-                <div class="section-title">Approval</div>
-                <table class="signature-table">
-                    <tr>
-                        <td>
-                            <label>Lab Manager</label>
-                            <input type="text" name="lab_manager" class="form-control" placeholder="Name" required>
-                        </td>
-                        <td>
-                            <label>Reviewed by</label>
-                            <input type="text" name="reviewed_by" class="form-control" placeholder="Name" required>
-                        </td>
-                        <td>
-                            <label>Prepared by</label>
-                            <input type="text" name="prepared_by" class="form-control" placeholder="Name" required>
-                        </td>
-                    </tr>
-                </table>
-            </div>
             <div class="action-buttons">
                 <button type="submit" name="action" value="analyze_report" class="btn btn-primary" id="submitBtn"
                     >
@@ -508,116 +513,159 @@
         <!-- Bootstrap JS -->
         <script>
             document.addEventListener('DOMContentLoaded', function () {
-                const fileInput = document.getElementById('fileInput');
-                const previewContainer = document.getElementById('previewContainer');
-                const previewImage = document.getElementById('previewImage');
-                const showResultsBtn = document.getElementById('showResultsBtn');
-                const submitBtn = document.getElementById('submitBtn');
-                const removeBtn = document.getElementById('removeBtn');
+    const fileInput = document.getElementById('fileInput');
+    const previewContainer = document.getElementById('previewContainer');
+    const previewImage = document.getElementById('previewImage');
+    const showResultsBtn = document.getElementById('showResultsBtn');
+    const submitBtn = document.getElementById('submitBtn');
+    const removeBtn = document.getElementById('removeBtn');
+    const form = document.querySelector('form');
 
-                const uploadedImagePath = "{{ url_for('static', filename=session.get('uploaded_image_path')) if session.get('uploaded_image_path') else '' }}";
+    const uploadedImagePath = "{{ url_for('static', filename=session.get('uploaded_image_path')) if session.get('uploaded_image_path') else '' }}";
 
-                if (uploadedImagePath) {
-                    previewImage.src = uploadedImagePath;
-                    previewContainer.style.display = 'block';
-                    showResultsBtn.disabled = false;
-                    submitBtn.disabled = false;
+    if (uploadedImagePath) {
+        previewImage.src = uploadedImagePath;
+        previewContainer.style.display = 'block';
+        showResultsBtn.disabled = false;
+        submitBtn.disabled = false;
+    }
+
+    fileInput.addEventListener('change', function () {
+        if (this.files && this.files[0]) {
+            const file = this.files[0];
+            if (!file.type.match('image.*')) {
+                alert('Please upload an image file');
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                previewImage.src = e.target.result;
+                previewContainer.style.display = 'block';
+                showResultsBtn.disabled = false;
+                submitBtn.disabled = false;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    if (removeBtn) {
+        removeBtn.addEventListener('click', function () {
+            fileInput.value = "";
+            previewImage.src = "";
+            previewContainer.style.display = 'none';
+            showResultsBtn.disabled = true;
+            submitBtn.disabled = true;
+
+            fetch("/clear_image");
+        });
+    }
+
+    let clickedButton = null;
+
+    document.querySelectorAll('button[type="submit"]').forEach(button => {
+        button.addEventListener('click', function () {
+            clickedButton = this;
+        });
+    });
+
+    form.addEventListener('submit', function (e) {
+        if (!clickedButton) return;
+
+        if (clickedButton.name === 'action' && clickedButton.value === 'analyze_report') {
+            const requiredFields = document.querySelectorAll('.form-required');
+            let valid = true;
+
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    field.classList.add('is-invalid');
+                    valid = false;
+                } else {
+                    field.classList.remove('is-invalid');
                 }
+            });
 
-                fileInput.addEventListener('change', function () {
-                    if (this.files && this.files[0]) {
-                        const file = this.files[0];
-                        if (!file.type.match('image.*')) {
-                            alert('Please upload an image file');
-                            return;
-                        }
-                        const reader = new FileReader();
-                        reader.onload = function (e) {
-                            previewImage.src = e.target.result;
-                            previewContainer.style.display = 'block';
-                            showResultsBtn.disabled = false;
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                });
+            // Check image manually
+            if (!fileInput.files.length && !uploadedImagePath) {
+                valid = false;
+                alert("Please upload an image before submitting the report.");
+            }
 
-                if (removeBtn) {
-                    removeBtn.addEventListener('click', function () {
-                        fileInput.value = "";
-                        previewImage.src = "";
-                        previewContainer.style.display = 'none';
-                        showResultsBtn.disabled = true;
-                        submitBtn.disabled = true;
+            if (!valid) {
+                e.preventDefault();
+            }
+        }
+    });
 
-                        // امسح الصورة من session على السيرفر
-                        fetch("/clear_image");
-                    });
+    showResultsBtn.addEventListener('click', function () {
+        if (!fileInput.files[0] && !uploadedImagePath) {
+            alert('Please upload an image first');
+            return;
+        }
 
-                }
-                showResultsBtn.addEventListener('click', function () {
-                    if (!fileInput.files[0] && !uploadedImagePath) {
-                        alert('Please upload an image first');
-                        return;
-                    }
+        const existingResults = document.getElementById('resultsContainer');
+        if (existingResults) {
+            existingResults.remove();
+        }
 
-                    // لو فيه نتائج قبل كده، احذفها
-                    const existingResults = document.getElementById('resultsContainer');
-                    if (existingResults) {
-                        existingResults.remove();
-                    }
-
-                    // أنشئ العنصر من جديد
-                    const resultsContainer = document.createElement('div');
-                    resultsContainer.id = 'resultsContainer';
-                    resultsContainer.innerHTML = `
-        <div class="report-section" style="margin-top:20px;">
-            <h3>Analysis Results</h3>
-            <div id="analysisResults" style="padding:20px; background:#f8f9fa; border-radius:8px;"></div>
-        </div>
-    `;
-
-                    const reportSection = document.querySelector('.report-section');
-                    if (reportSection && reportSection.parentNode) {
-                        reportSection.parentNode.insertBefore(resultsContainer, reportSection);
-                    } else {
-                        document.querySelector('.upload-container').appendChild(resultsContainer);
-                    }
-
-                    const analysisResults = document.getElementById('analysisResults');
-                    analysisResults.innerHTML = '<p>Analyzing image, please wait...</p>';
-
-                    const formData = new FormData();
-                    if (fileInput.files[0]) {
-                        formData.append('image', fileInput.files[0]);
-                    } else {
-                        formData.append('use_session_image', '1');
-                    }
-
-                    fetch('/analyze', {
-                        method: 'POST',
-                        body: formData
-                    })
-                        .then(response => response.json())
-                        .then(data => {
-                            analysisResults.innerHTML = `
-            <div class="result-item">
-                <h4>Defects Found:</h4>
-                <p>${data.defects || 'No defects detected'}</p>
-            </div>
-            <div class="result-item">
-                <h4>Quality Score:</h4>
-                <p>${data.score || 'N/A'}</p>
+        const resultsContainer = document.createElement('div');
+        resultsContainer.id = 'resultsContainer';
+        resultsContainer.innerHTML = `
+            <div class="report-section" style="margin-top:20px;">
+                <h3>Analysis Results</h3>
+                <div id="analysisResults" style="padding:20px; background:#f8f9fa; border-radius:8px;"></div>
             </div>
         `;
-                            submitBtn.disabled = false;
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            analysisResults.innerHTML = '<p class="text-danger">Error analyzing image. Please try again.</p>';
-                        });
-                });
 
+        const reportSection = document.querySelector('.report-section');
+        if (reportSection && reportSection.parentNode) {
+            reportSection.parentNode.insertBefore(resultsContainer, reportSection);
+        } else {
+            document.querySelector('.upload-container').appendChild(resultsContainer);
+        }
+
+        const analysisResults = document.getElementById('analysisResults');
+        analysisResults.innerHTML = '<p>Analyzing image, please wait...</p>';
+
+        const formData = new FormData();
+        if (fileInput.files[0]) {
+            formData.append('image', fileInput.files[0]);
+        } else {
+            formData.append('use_session_image', '1');
+            const cellType = document.getElementById('cellTypeSelect').value;
+if (!cellType) {
+    alert("Please select the Module Cell Type before showing results.");
+    return;
+}
+formData.append('cell_type', cellType);
+
+        }
+
+        fetch('/analyze', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                analysisResults.innerHTML = `
+                    <div class="result-item">
+                        <h4>Defects Found:</h4>
+                        <p>${data.defects || 'No defects detected'}</p>
+                    </div>
+                    <div class="result-item">
+                        <h4>Quality Score:</h4>
+                        <p>${data.score || 'N/A'}</p>
+                    </div>
+                `;
+                submitBtn.disabled = false;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                analysisResults.innerHTML = '<p class="text-danger">Error analyzing image. Please try again.</p>';
             });
+    });
+});
+
+
         </script>
 </body>
 
