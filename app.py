@@ -14,6 +14,8 @@ import smtplib
 from datetime import datetime
 from models import report_generator 
 
+
+
 app = Flask(__name__)
 app.secret_key = 'your_secret_key_should_be_strong_and_secret'
 
@@ -168,13 +170,6 @@ def register():
             flash(f'Registration error: {str(e)}', 'danger')
     
     return render_template('register.html', form=form)
-
-
-
-
-
-
-
 
 @app.route('/verify_email', methods=['GET', 'POST'])
 def verify_email():
@@ -462,16 +457,15 @@ def analyze():
         print(f"Error in /analyze: {e}")
         return jsonify({'error': f'Internal error: {str(e)}'}), 500
 
-import sqlite3
-from datetime import datetime
 
 
 
 
 
 
-import sqlite3
-from datetime import datetime
+
+
+
 
 def save_report(user_id, report, pdf_path, original_image):
     """
